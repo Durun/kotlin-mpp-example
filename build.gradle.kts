@@ -48,7 +48,7 @@ kotlin {
         }
     }
 
-    mingwX64(name = "windows") {
+    mingwX64(name = "windowsX64") {
         binaries {
             executable()
         }
