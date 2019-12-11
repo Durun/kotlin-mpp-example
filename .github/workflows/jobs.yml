@@ -1,0 +1,31 @@
+name: CI
+
+on: [push]
+
+jobs:
+  testOnUbuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: ./gradlew build
+      - name: Run executable
+        run: ./gradlew runReleaseExecutableLinuxX64
+
+  testOnMacOS:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: ./gradlew build
+      - name: Run executable
+        run: ./gradlew runReleaseExecutableMacosX64
+
+  testOnWindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        run: .\gradlew build
+      - name: Run executable
+        run: .\gradlew runReleaseExecutableWindowsX64
