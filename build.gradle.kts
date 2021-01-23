@@ -5,7 +5,7 @@ plugins {
      *  - Is the gradle not "offline-mode" ?
      *  - Is the JVM version in which the gradle runs correct?
      */
-    kotlin("multiplatform") version "1.3.61"
+    kotlin("multiplatform") version "1.4.21"
 }
 
 group = "io.github.durun"
