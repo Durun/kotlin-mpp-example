@@ -13,46 +13,23 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    jcenter()
+}
+
+dependencies {
+    commonMainImplementation(kotlin("stdlib-common"))
+    commonTestImplementation(kotlin("test-common"))
+    commonTestImplementation(kotlin("test-annotations-common"))
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation(kotlin("stdlib-common"))
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-            }
-        }
-    }
-
-    linuxX64 {
-        /**
-         * Required files:
-         *  /usr/lib/libtinfo.so.5
-         *      arch-linux -> install "ncurses5-compat-libs" from AUR
-         */
-        binaries {
-            executable()
-        }
-    }
-
-    macosX64 {
-        binaries {
-            executable()
-        }
-    }
-
-    mingwX64(name = "windowsX64") {
-        binaries {
-            executable()
-        }
-    }
+    /**
+     * Required files:
+     *  /usr/lib/libtinfo.so.5
+     *      arch-linux -> install "ncurses5-compat-libs" from AUR
+     */
+    linuxX64()
+    macosX64()
+    mingwX64(name = "windowsX64")
 }
 
 tasks.withType<Wrapper> {
