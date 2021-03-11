@@ -1,15 +1,11 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
+group = "io.github.durun.example"
+version = "1.0-SNAPSHOT"
 
 plugins {
-    /**
-     * Check:
-     *  - Is the gradle not "offline-mode" ?
-     *  - Is the JVM version in which the gradle runs correct?
-     */
     kotlin("multiplatform") version "1.4.21"
 }
-
-group = "io.github.durun"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -17,28 +13,30 @@ repositories {
 
 dependencies {
     commonMainImplementation(kotlin("stdlib-common"))
-    commonTestImplementation(kotlin("test-common"))
-    commonTestImplementation(kotlin("test-annotations-common"))
 }
 
+val os = org.gradle.internal.os.OperatingSystem.current()
 kotlin {
-    linuxX64 {
-        /**
-         * Required files:
-         *  /usr/lib/libtinfo.so.5
-         *      arch-linux -> install "ncurses5-compat-libs" from AUR
-         */
-        binaries.executable()
+    when {
+        os.isWindows -> mingwX64("windowsX64")
+        os.isMacOsX -> macosX64()
+        os.isLinux -> linuxX64()
     }
-    macosX64 {
-        binaries.executable()
-    }
-    mingwX64(name = "windowsX64") {
-        binaries.executable()
-    }
-}
 
-tasks.withType<Wrapper> {
-    gradleVersion = "6.8.1"
-    distributionType = Wrapper.DistributionType.ALL
+    targets.withType<KotlinNativeTarget>().all {
+        sourceSets {
+            getByName("${targetName}Main").apply {
+                kotlin.srcDir("src/nativeMain/kotlin")
+            }
+            getByName("${targetName}Test").apply {
+                kotlin.srcDir("src/nativeTest/kotlin")
+                dependencies {
+                    implementation(kotlin("test-common"))
+                }
+            }
+        }
+        binaries {
+            executable()
+        }
+    }
 }
