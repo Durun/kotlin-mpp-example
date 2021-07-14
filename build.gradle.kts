@@ -4,7 +4,7 @@ group = "io.github.durun.example"
 version = "1.0-SNAPSHOT"
 
 plugins {
-    kotlin("multiplatform") version "1.5.0"
+    kotlin("multiplatform") version "1.5.21"
 }
 
 repositories {
